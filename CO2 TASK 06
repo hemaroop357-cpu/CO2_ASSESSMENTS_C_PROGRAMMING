@@ -1,0 +1,52 @@
+
+#include <stdio.h>
+
+int main() {
+    double balance = 10000.0;
+    double rate = 2.0;
+    double repayment = 2000.0;
+    double interest;
+    double payment;
+    double total_interest = 0.0;
+
+    int month = 0;
+    int limit = 360;
+
+    if (repayment <= balance * rate / 100) {
+        printf("Loan cannot be repaid with this amount.\n");
+        return 0;
+    }
+
+    printf("Month\tInterest\tPayment\tBalance\n");
+
+    while (balance > 0.001 && month < limit) {
+        month++;
+
+        interest = balance * rate / 100;
+        total_interest += interest;
+
+        balance += interest;
+
+        payment = (balance < repayment) ? balance : repayment;
+
+        balance -= payment;
+
+        if (balance < 0.001)
+            balance = 0;
+
+        printf("%d\t%.2f\t\t%.2f\t%.2f\n",
+            month, interest, payment, balance);
+    }
+
+    if (balance == 0) {
+        printf("\nLoan fully repaid!\n");
+        printf("Total months = %d\n", month);
+        printf("Total interest = Rs. %.2f\n",
+            total_interest);
+    } else {
+        printf("\nMaximum month limit reached.\n");
+        printf("Remaining balance = Rs. %.2f\n", balance);
+    }
+
+    return 0;
+}
