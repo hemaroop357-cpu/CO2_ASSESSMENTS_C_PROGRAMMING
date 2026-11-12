@@ -1,0 +1,40 @@
+
+#include <stdio.h>
+
+int main() {
+    int price = 200;
+    int qty = 5;
+    int senior = 1;
+
+    // Original incorrect calculation
+    int total = price * qty - price * qty * 15 / 100 * senior
+                + price * qty * 5 / 100;
+
+    int net = total > 1000 ? total - 50 : total;
+
+    printf("Original Total = %d\n", total);
+    printf("Original Net = %d\n", net);
+
+    // Correct calculation
+    double gross = (double)price * qty;
+    double discount = senior ? gross * 15.0 / 100 : 0;
+    double tax = (gross - discount) * 5.0 / 100;
+
+    double correct_total = gross - discount + tax;
+    double correct_net = correct_total > 1000
+                         ? correct_total - 50 : correct_total;
+
+    printf("Correct Gross = %.2f\n", gross);
+    printf("Discount = %.2f\n", discount);
+    printf("GST = %.2f\n", tax);
+    printf("Correct Total = %.2f\n", correct_total);
+    printf("Correct Net = %.2f\n", correct_net);
+
+    // Demonstrate the undefined behaviour expression
+    int count = 5;
+    count = count + 1; // Safe replacement for count++ + 1
+
+    printf("Count = %d\n", count);
+
+    return 0;
+}
